@@ -1,4 +1,8 @@
 .DS_Store
 .vscode
 *.logs
-*.csv
+ROC/
+*.png
+*.p
+__pycache__
+.ipynb_checkpoints/
