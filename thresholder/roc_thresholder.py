@@ -71,13 +71,8 @@ class ROC_Thresholder:
 
     def transform(self, predict_proba):
         """
-        lab_prob_df_path: string
-            path to csv or excel containing true labels and predicted probabilities,
-            this data file can be the same as the one called in fit or can be a new one
-            which is similar to the one called in fit, if None then it will be the previous
-            dataframe loaded in the fit method
-        save: boolean
-            True if want to save predictions in a column in dataframe
+        predict_proba: Numpy Array
+            Numpy array with shape (n_samples, n_features), each column contains probabilities for one feature
 
         returns predictions based on optimal cutoffs
         """
