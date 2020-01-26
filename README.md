@@ -18,8 +18,8 @@ docker-compose up -d
 import thresholder
 
 proba_thresholder = thresholder.ROC_Thresholder()
-proba_thresholder.fit(label_prob_path, label_idx_dic_path, true_labels_field, "./ROC_output/")
-roc_preds = proba_thresholder.transform(save=False, indices=True) # don't save output as a column in dataframe containing label probabilities, roc predictions are contained in an array and they are indexed
+proba_thresholder.fit(predict_proba, true_Y, "./ROC_output/")
+roc_preds = proba_thresholder.transform(predict_proba) # obtain predictions based on optimal cutoffs
 ```
 
 ## Jupyter Notebook Server
