@@ -9,7 +9,12 @@ pip install .
 ```
 python setup.py install
 ```
-3. docker-compose to set up an environment with module installed
+3. setup.py with testing
+```
+chmod a+x setup.sh
+./setup.sh
+```
+4. docker-compose to set up an environment with module installed
 ```
 docker-compose up -d
 ```
@@ -24,3 +29,9 @@ roc_preds = proba_thresholder.transform(predict_proba) # obtain predictions base
 
 ## Jupyter Notebook Server
 To set up a notebook server, follow step 3 of **Installation** and assuming default settings are applied, head to *http://localhost:8889/tree* to view existing or create new notebooks to perform experiments with the module.
+
+## Testing Your Alterations
+```
+chmod a+x test.sh
+./test.sh
+```
