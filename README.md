@@ -23,12 +23,12 @@ docker-compose up -d
 import thresholder
 
 proba_thresholder = thresholder.ROC_Thresholder()
-proba_thresholder.fit(predict_proba, true_Y, "./ROC_output/")
+proba_thresholder.fit(predict_proba, true_Y, "./ROC_output/") # determine optimal thresholds and save plots
 roc_preds = proba_thresholder.transform(predict_proba) # obtain predictions based on optimal cutoffs
 ```
 
 ## Jupyter Notebook Server
-To set up a notebook server, follow step 3 of **Installation** and assuming default settings are applied, head to *http://localhost:8889/tree* to view existing or create new notebooks to perform experiments with the module.
+To set up a notebook server, follow step 4 of **Installation** and assuming default settings are applied, head to *http://localhost:8889/tree* to view existing or create new notebooks to perform experiments with the module.
 
 ## Testing Your Alterations
 ```
