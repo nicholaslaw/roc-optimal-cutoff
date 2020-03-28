@@ -18,7 +18,7 @@ class ROC_Thresholder:
         method: str
             string can be either youden or euclidean to be used to obtain optimal cutoffs
             youden would refer to youden j statistic
-            euclidean would refer to obtaining threshold with point on ROC curve closest to the top left, i.e. (1,0)
+            euclidean would refer to obtaining threshold with point on ROC curve closest to the top left, i.e. (0, 1)
 
         Create dataframe containing results of optimal cutoffs
         """
@@ -61,7 +61,7 @@ class ROC_Thresholder:
                 optimal_proba_cutoff = sorted(list(zip(np.abs(true_pos_rate - false_pos_rate), proba)), key=lambda i: i[0], reverse=True)[0][1]
             elif method == "euclidean":
                 coordinates_array = np.array(list(zip(true_pos_rate, false_pos_rate)))
-                coordinates_array -= np.array([1,0]) # coordinates (1,0) is the top left corner of the roc plot
+                coordinates_array -= np.array([0, 1]) # coordinates (0, 1) is the top left corner of the roc plot
                 coordinates_array **= 2
                 coordinates_array = np.sum(coordinates_array, axis=1)
                 coordinates_array **= 0.5
