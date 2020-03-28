@@ -9,24 +9,29 @@ class ROC_Thresholder:
         self.idx_label_dic = None
         self.cutoffs = None
 
-    def fit(self, predict_proba: typing.Union[np.ndarray, list], true_Y: typing.Union[np.ndarray, list], save_folder: typing.Optional[str]=None) -> None:
+    def fit(self, predict_proba: typing.Union[np.ndarray, list], true_Y: typing.Union[np.ndarray, list], method: str="youden", save_folder: typing.Optional[str]=None) -> None:
         """
         predict_proba: Numpy Array
             Numpy array with shape (n_samples, n_features), each column contains probabilities for one feature
         true_Y: array
             array containing true labels in form of indices
-        idx_lab_dic: dictionary
-            dictionary containing labels (values) and their corresponding indices (keys)
+        method: str
+            string can be either youden or euclidean to be used to obtain optimal cutoffs
+            youden would refer to youden j statistic
+            euclidean would refer to obtaining threshold with point on ROC curve closest to the top left, i.e. (1,0)
 
         Create dataframe containing results of optimal cutoffs
         """
+        method = method.strip().lower()
+        if method not in ["youden", "euclidean"]:
+            raise ValueError("method must be either youden or euclidean")
         self.num_classes_ = predict_proba.shape[-1]
         if save_folder:
             if not os.path.exists(save_folder):
                 os.makedirs(save_folder)
-        self.determine_optimal_cutoffs(predict_proba, true_Y, save_folder)
+        self.determine_optimal_cutoffs(predict_proba, true_Y, method, save_folder)
 
-    def determine_optimal_cutoffs(self, predict_proba: typing.Union[np.ndarray, list], true_Y: typing.Union[np.ndarray, list], save_folder: typing.Optional[str]=None) -> None:
+    def determine_optimal_cutoffs(self, predict_proba: typing.Union[np.ndarray, list], true_Y: typing.Union[np.ndarray, list], method: str="youden", save_folder: typing.Optional[str]=None) -> None:
         labels = []
         counts = []
         true_positive_rates = []
@@ -52,7 +57,16 @@ class ROC_Thresholder:
                 plt.savefig(save_folder + str(idx) + "_roc.png")
 
             # Determine Optimal Probability Cutoffs Using Difference Between True Positive and False Positive Rates
-            optimal_proba_cutoff = sorted(list(zip(np.abs(true_pos_rate - false_pos_rate), proba)), key=lambda i: i[0], reverse=True)[0][1]
+            if method == "youden":
+                optimal_proba_cutoff = sorted(list(zip(np.abs(true_pos_rate - false_pos_rate), proba)), key=lambda i: i[0], reverse=True)[0][1]
+            elif method == "euclidean":
+                coordinates_array = np.array(list(zip(true_pos_rate, false_pos_rate)))
+                coordinates_array -= np.array([1,0]) # coordinates (1,0) is the top left corner of the roc plot
+                coordinates_array **= 2
+                coordinates_array = np.sum(coordinates_array, axis=1)
+                coordinates_array **= 0.5
+                optimal_proba_cutoff = sorted(list(zip(coordinates_array, proba)), key=lambda i: i[0], reverse=False)[0][1]
+
 
             labels.append(idx)
             counts.append(sum(binary_true_lab))
@@ -83,6 +97,6 @@ class ROC_Thresholder:
             predictions.append(proba_diffs[0][0])
         return predictions
 
-    def fit_transform(self, predict_proba: typing.Union[np.ndarray, list], true_Y: typing.Union[np.ndarray, list], save_folder: typing.Optional[str]=None) -> list:
-        self.fit(predict_proba, true_Y, save_folder=save_folder)
+    def fit_transform(self, predict_proba: typing.Union[np.ndarray, list], true_Y: typing.Union[np.ndarray, list], method: str="youden", save_folder: typing.Optional[str]=None) -> list:
+        self.fit(predict_proba, true_Y, method, save_folder=save_folder)
         return self.transform(predict_proba)

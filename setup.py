@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name='thresholder',
-   version='1.0.1',
+   version='1.0.2',
    description='A module to give optimal probability cutoffs using ROC curve',
    author='Nicholas Law',
    author_email='nicholas_law_91@hotmail.com',
