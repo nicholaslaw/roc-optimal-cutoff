@@ -1,4 +1,4 @@
-# Determining Optimal Probability Cutoffs with ROC Curve
+# Determining Optimal Probability Cutoffs with ROC or PR Curve
 ## Installation
 Open terminal in this directory and run either:
 1. pip install the module itself
