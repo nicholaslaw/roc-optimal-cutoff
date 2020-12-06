@@ -2,8 +2,8 @@ version: '3.5'
 
 services:
 
-  rocthresholder:
-    image: rocthresholder:1.0
+  thresholder:
+    image: thresholder:1.0
     build:
       context: .
     command:

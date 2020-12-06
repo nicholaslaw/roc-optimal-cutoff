@@ -1,2 +1,1 @@
-pip install .
-python -m unittest discover -s thresholder
+pip install . && python -m unittest discover -s tests/

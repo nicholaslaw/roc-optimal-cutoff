@@ -1,17 +1,14 @@
 import unittest
 import numpy as np
-from thresholder import ROC_Thresholder
+from thresholder import Thresholder
 
-thres = ROC_Thresholder()
-predict_proba = []
-for _ in range(1000):
-    temp = np.abs(np.random.normal(size=3))
-    temp /= np.sum(temp)
-    predict_proba.append(temp)
-predict_proba = np.array(predict_proba)
-true_Y = np.random.randint(3, size=1000)
-thres.fit(predict_proba, true_Y)
-preds = thres.transform(predict_proba)
+y = np.array([0,0,1,1])
+scores = np.array([[0.1, 0.9], [0.4, 0.6], [0.35, 0.65], [0.8, 0.2]])
+
+idx_label_dic = {idx: "dummy_{}".format(idx) for idx in range(2)}
+thres = Thresholder(idx_label_dic)
+thres.fit(scores, y, curve="pr", method="f1", save_folder=None)
+preds = thres.transform(scores)
 
 class Thresholder_Test(unittest.TestCase):
     def test_cutoff_dic_type(self):

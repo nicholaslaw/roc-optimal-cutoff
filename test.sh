@@ -1,1 +1,1 @@
-python -m unittest discover -s thresholder
+python -m unittest discover -s tests

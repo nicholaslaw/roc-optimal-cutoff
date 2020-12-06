@@ -18,14 +18,19 @@ chmod a+x setup.sh
 ```
 docker-compose up -d
 ```
+
 ## Getting Started
 ```
 import thresholder
 
-proba_thresholder = thresholder.ROC_Thresholder()
-proba_thresholder.fit(predict_proba, true_Y, "./ROC_output/") # determine optimal thresholds and save plots
+proba_thresholder = thresholder.Thresholder()
+proba_thresholder.fit(predict_proba, true_Y, curve="roc", method="youden", "./ROC_output/") # determine optimal thresholds and save ROC plots
 roc_preds = proba_thresholder.transform(predict_proba) # obtain predictions based on optimal cutoffs
 ```
+
+## Example Notebooks
+
+Example notebooks demonstrating how to obtain more optimal probability thresholds using either ROC or PR curve.
 
 ## Jupyter Notebook Server
 To set up a notebook server, follow step 4 of **Installation** and assuming default settings are applied, head to *http://localhost:8889/tree* to view existing or create new notebooks to perform experiments with the module.
