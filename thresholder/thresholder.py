@@ -40,7 +40,7 @@ class Thresholder:
             raise ValueError("method must be either {}".format(" or ".join(self.curve_methods[curve])))
         
         self.num_classes_ = predict_proba.shape[-1]
-        self.idx_label_dic = self.idx_label_dic if self.idx_label_dic is not None else {idx: idx in range(self.num_classes_)}
+        self.idx_label_dic = self.idx_label_dic if self.idx_label_dic is not None else {idx: idx for idx in range(self.num_classes_)}
         
         if save_folder:
             if not os.path.exists(save_folder):
@@ -88,7 +88,7 @@ class Thresholder:
                     # Save ROC Curve Plots
                     plt.figure()
                     plt.plot([0,1], [0,1], linestyle="--") # save random curve
-                    plt.plot(x_scores, y_scores, marker=".", label=f"AUC = {auc_score}")
+                    plt.plot(x_score, y_score, marker=".", label=f"AUC = {auc_score}")
                     plt.title(f"{curve} Curve for {self.idx_label_dic[idx]}")
                     plt.ylabel(y_label)
                     plt.xlabel(x_label)
@@ -110,7 +110,7 @@ class Thresholder:
                 else:
                     optimal_proba_cutoff = sorted(list(zip(2 * (y_score * x_score / (y_score + x_score + 1e-7)), proba)), key=lambda i: i[0], reverse=True)[0][1]
 
-            labels.append(idx)
+            labels.append(self.idx_label_dic[idx])
             counts.append(sum(binary_true_lab))
 
             x_scores.append(x_score)
@@ -131,7 +131,7 @@ class Thresholder:
 
         returns predictions based on optimal cutoffs
         """
-        proba_cutoffs = np.array([self.cutoffs[i] for i in range(self.num_classes_)])
+        proba_cutoffs = np.array([self.cutoffs[self.idx_label_dic[idx]] for idx in range(self.num_classes_)])
         labels = list(range(self.num_classes_))
         predictions = []
         for row in predict_proba:
