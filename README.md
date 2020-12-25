@@ -33,7 +33,7 @@ roc_preds = proba_thresholder.transform(predict_proba) # obtain predictions base
 Example notebooks demonstrating how to obtain more optimal probability thresholds using either ROC or PR curve.
 
 ## Jupyter Notebook Server
-To set up a notebook server, follow step 4 of **Installation** and assuming default settings are applied, head to *http://localhost:8889/tree* to view existing or create new notebooks to perform experiments with the module. Token would be password by default
+To set up a notebook server, follow step 4 of **Installation** and assuming default settings are applied, head to *http://localhost:8889/tree* to view existing or create new notebooks to perform experiments with the module. Token would be password by default.
 
 ## Testing Your Alterations
 ```
