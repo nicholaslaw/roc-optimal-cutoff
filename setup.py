@@ -8,7 +8,7 @@ setup(
    author_email='nicholas_law_91@hotmail.com',
    packages=['thresholder'],  #same as name
    install_requires=[
-       "numpy==1.18.1",
+       "numpy==1.22.0",
        "scikit-learn==0.22.2.post1",
        "pandas==1.0.1",
        "matplotlib==3.3.0"
